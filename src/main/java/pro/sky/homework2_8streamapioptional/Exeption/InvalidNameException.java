@@ -3,9 +3,11 @@ package pro.sky.homework2_8streamapioptional.Exeption;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+//@ResponseStatus(HttpStatus.BAD_REQUEST)
+public class InvalidNameException extends RuntimeException {
 
-public class ArrayIsFull extends RuntimeException {
-    public ArrayIsFull(String message) {
+
+    public InvalidNameException(String message) {
         super(message);
     }
 }

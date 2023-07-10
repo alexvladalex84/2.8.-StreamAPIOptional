@@ -1,18 +1,23 @@
 package pro.sky.homework2_8streamapioptional.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import pro.sky.homework2_8streamapioptional.Exeption.InvalidNameException;
 import pro.sky.homework2_8streamapioptional.Model.Employee;
 import pro.sky.homework2_8streamapioptional.Service.EmployeeService;
 
+import java.net.BindException;
 import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "/employee")
 public class EmployeeController {
+    @ExceptionHandler({InvalidNameException.class})
+    public ResponseEntity<String> handlerException(InvalidNameException e){
+        return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
+    }
 
     private final EmployeeService employeeService;
 
@@ -22,18 +27,9 @@ public class EmployeeController {
 
     @GetMapping(path = "/add")
     public Employee addEmployee(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName
-            , @RequestParam("patronymic") String patronymic, @RequestParam("salary") double salary, @RequestParam("department") int department) {
+            , @RequestParam("patronymic") String patronymic, @RequestParam("salary") double salary, @RequestParam("department") int department) throws BindException {
         return employeeService.addEmployee(firstName, lastName, patronymic, salary, department);
-//            try {
-//
-//            } catch (ArrayIsFull e) {
-//                e.printStackTrace();
-//                return String.format("Привышен лимит количества сотрудников %s", employeeService.listEmployees());
-//
-//            } catch (EmployeeAlreadyAddedException e) {
-//                e.printStackTrace();
-//                return "Сотрудник " + firstName + " " + lastName + " уже сущестует ";
-//            }
+
     }
 
     @GetMapping(path = "/remove")

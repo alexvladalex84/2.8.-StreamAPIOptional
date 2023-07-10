@@ -5,43 +5,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.homework2_8streamapioptional.Model.Employee;
-import pro.sky.homework2_8streamapioptional.Service.SalaryService;
+import pro.sky.homework2_8streamapioptional.Service.DepartmentService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/departments")
 
-public class SalaryController {
+public class DepartmentController {
 
-    private final SalaryService salaryService;
+    private final DepartmentService salaryService;
 
-    public SalaryController(SalaryService salaryService) {
+    public DepartmentController(DepartmentService salaryService) {
         this.salaryService = salaryService;
     }
 
     @GetMapping(path = "/max-salary")
-    public List<Employee> maxSalaryById(@RequestParam("department") int department) {
+    public Employee maxSalaryById(@RequestParam("department") int department) {
         return salaryService.maxSalaryByDepartment(department);
     }
 
     @GetMapping(path = "/min-salary")
-    public List<Employee> minSalaryById(@RequestParam("department") int department) {
+    public Employee minSalaryById(@RequestParam("department") int department) {
         return salaryService.minSalaryByDepartment(department);
     }
 
-    @GetMapping(path = "/all-by-department")
-    public List<Employee> listEmployeeByDepartmentId(@RequestParam("departmentId") int departmentId) {
-        return salaryService.listEmployeeByDepartmentId(departmentId);
-
-    }
-
     @GetMapping(path = "/all")
-    public List<Employee> listEmployeeSeparationByDepartmentId() {
-        return salaryService.listEmployeeSeparationByDepartmentId();
+    public Map<Integer, List<Employee>> getAllByDepartment(@RequestParam(required = false)Integer departmentId) {
+        return salaryService.getAllByDepartment(departmentId);
 
     }
+
 
     @GetMapping
     public Collection<Employee> listEmployee() {
